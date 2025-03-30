@@ -11,7 +11,7 @@ import string
 import json
 import os
 
-WEBHOOK_URL = "" # CHANGE THIS TO YOUR WEBHOOK
+WEBHOOK_URL = ""  # CHANGE THIS TO YOUR WEBHOOK
 CHECKED_FILE = "checked_usernames-2-3c.json"
 
 def load_checked_usernames():
@@ -28,7 +28,7 @@ def send_to_discord(username):
     payload = {"content": f"Available GitHub username found: {username}"}
     requests.post(WEBHOOK_URL, json=payload)
 
-def generate_random_username(checked_dict):
+def generate_random_username(checked_dict, mode):
     letters = string.ascii_letters
     digits = string.digits
     
@@ -50,16 +50,22 @@ def generate_random_username(checked_dict):
         lambda: random.choice(digits) + random.choice(digits) + random.choice(digits)
     ]
     
-    pattern_choice = random.choices(
-        [two_char_patterns, three_char_patterns],
-        weights=[0.5, 0.5],
-        k=1
-    )[0]
+    pattern_choices = []
+    if mode in ('2c', 'both'):
+        pattern_choices.extend(two_char_patterns)
+    if mode in ('3c', 'both'):
+        pattern_choices.extend(three_char_patterns)
     
     while True:
-        username = random.choice(pattern_choice)()
+        username = random.choice(pattern_choices)()
         if username not in checked_dict:
             return username
+
+while True:
+    mode = input("Choose mode (2c for 2-char, 3c for 3-char, both for both): ").strip().lower()
+    if mode in ['2c', '3c', 'both']:
+        break
+    print("Invalid choice. Please enter '2c', '3c', or 'both'.")
 
 chrome_options = Options()
 chrome_options.add_argument("--log-level=3")
@@ -100,7 +106,7 @@ try:
     
     attempts = 0
     while True:
-        username = generate_random_username(checked_usernames)
+        username = generate_random_username(checked_usernames, mode)
         attempts += 1
         
         username_input.clear()
