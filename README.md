@@ -1,6 +1,6 @@
 # GitHub Checker
 
-A Python script to check available 2-3 usernames on Github.
+A Python script to check available 2-3C usernames on Github.
 
 ## Installation / Usage
 
