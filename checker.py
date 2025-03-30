@@ -11,7 +11,7 @@ import string
 import json
 import os
 
-WEBHOOK_URL = "https://discord.com/api/webhooks/1351605146873761885/WinjaddLxcbnKYMby7jc-VEhz5LwYUoPSPhVNBTx2A5nWkLvGVijpxnoAVTlYXVUphbr"
+WEBHOOK_URL = "" # CHANGE THIS TO YOUR WEBHOOK
 CHECKED_FILE = "checked_usernames-2-3c.json"
 
 def load_checked_usernames():
